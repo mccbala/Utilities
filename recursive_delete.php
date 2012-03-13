@@ -17,6 +17,7 @@ function getfiles($dir) {
 }
 
 function delfiles($files) {
+	if (count($files)<1) echo 'Nothing to delete!';
 	rsort($files,SORT_STRING);
 	foreach($files as $file) {
 		if (!is_dir($file)) {
