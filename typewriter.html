@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Typewriter Effect</title>
+  <style>
+    #typewriter-text {
+      white-space: pre;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+  <h1>Typewriter Effect</h1>
+  <input type="file" id="file-input" accept=".txt">
+  <br>
+  <div id="typewriter-text"></div>
+
+  <script>
+    function simulateTypewriterEffect(text, delayMin, delayMax) {
+      const typewriterText = document.getElementById('typewriter-text');
+      let i = 0;
+
+      function typeNextLetter() {
+        if (i < text.length) {
+          typewriterText.textContent += text.charAt(i);
+          i++;
+
+          const delay = Math.floor(Math.random() * (delayMax - delayMin + 1) + delayMin);
+          setTimeout(typeNextLetter, delay);
+        }
+      }
+
+      typeNextLetter();
+    }
+
+    function readFile(file) {
+      const reader = new FileReader();
+
+      reader.onload = function(event) {
+        const text = event.target.result;
+        const typewriterText = document.getElementById('typewriter-text');
+        typewriterText.textContent = '';
+
+        // Simulate typewriter effect with randomness
+        const delayMin = 50; // Minimum delay in milliseconds
+        const delayMax = 200; // Maximum delay in milliseconds
+        simulateTypewriterEffect(text, delayMin, delayMax);
+      };
+
+      reader.readAsText(file);
+    }
+
+    const fileInput = document.getElementById('file-input');
+    fileInput.addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file && file.type === 'text/plain') {
+        readFile(file);
+      }
+    });
+  </script>
+</body>
+</html>
